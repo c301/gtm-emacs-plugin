@@ -1,5 +1,5 @@
 # gtm-emacs-plugin
-Plugin for the Emacs editor to be used with the (Git Time Metric)[https://github.com/git-time-metric/gtm] platform.
+Plugin for the Emacs editor to be used with the [Git Time Metric](https://github.com/git-time-metric/gtm) platform.
 
 ## Usage
 `M-x gtm-git-time-metric-record`
