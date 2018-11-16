@@ -1,4 +1,4 @@
-;;; gtm-emacs-plugin.el --- Provide function to record time with gtm ( git time metric )
+;;; git-time-metric.el --- Provide function to record time with gtm ( git time metric )
 
 ;; Copyright (C) 2018 Anton Sivolapov
 ;; This package uses the MIT License.
@@ -12,56 +12,56 @@
 
 ;;; Commentary:
 ;;
-;; This file provides `gtm-emacs-plugin-record', which records time with gtm. Essentially it calls `gtm record [options] <file_name>'.
+;; This file provides `git-time-metric-record', which records time with gtm. Essentially it calls `gtm record [options] <file_name>'.
 ;;
 ;; Usage:
-;;     M-x gtm-emacs-plugin-record
+;;     M-x git-time-metric-record
 ;;
 ;;     To automatically record time after saving:
 ;;     (Choose depending on your favorite mode.)
 ;;
 ;; (eval-after-load 'js-mode
-;; 	'(add-hook 'js-mode-hook (lambda () (add-hook 'after-save-hook 'gtm-emacs-plugin-record))))
+;; 	'(add-hook 'js-mode-hook (lambda () (add-hook 'after-save-hook 'git-time-metric-record))))
 ;;
 ;; (eval-after-load 'js2-mode
-;; 	'(add-hook 'js-mode-hook (lambda () (add-hook 'after-save-hook 'gtm-emacs-plugin-record))))
+;; 	'(add-hook 'js-mode-hook (lambda () (add-hook 'after-save-hook 'git-time-metric-record))))
 ;;
 ;;     Or track all your files:
 ;;
-;; (add-hook 'after-save-hook 'gtm-emacs-plugin-record)
+;; (add-hook 'after-save-hook 'git-time-metric-record)
 
 ;;; Code:
-(defgroup gtm-emacs-plugin-record nil
-  "Record to gtm with ‘gtm-emacs-plugin-record’."
-  :link '(function-link gtm-emacs-plugin-record)
-  :tag "Git Time Metric (gtm) Record"
+(defgroup git-time-metric nil
+  "Record time to gtm with ‘git-time-metric-record’."
+  :link '(function-link git-time-metric-record)
+  :tag "Git Time Metric (gtm)"
   :group 'tools)
 
-(defcustom gtm-emacs-plugin-executable "gtm"
+(defcustom git-time-metric-executable "gtm"
   "Set gtm executable to use."
   :tag "Git Time Metric (gtm) Executable"
   :type 'string)
 
-(defcustom gtm-emacs-plugin-executable-options nil
+(defcustom git-time-metric-executable-options nil
   "Additional options to pass to gtm (e.g. “-status=false”)."
   :tag "Git Time Metric (gtm) Options"
   :type '(repeat string))
 
 ;;;###autoload
-(defun gtm-emacs-plugin-record()
+(defun git-time-metric-record()
   "Record to gtm (git time metric), ie call ‘gtm record <file_name>’."
   (interactive)
   (unless buffer-file-name
     (error "Git Time Metric requires a file-visiting buffer"))
 
-  (let ((gtm (executable-find gtm-emacs-plugin-executable))
+  (let ((gtm (executable-find git-time-metric-executable))
         (options (append (list "record")
-                         gtm-emacs-plugin-executable-options
+                         git-time-metric-executable-options
                          (list buffer-file-name))))
     (unless gtm
-      (error "Executable ‘%s’ not found" gtm-emacs-plugin-executable))
+      (error "Executable ‘%s’ not found" git-time-metric-executable))
     (apply 'call-process gtm nil "*gtm Errors*" nil options)))
 
-(provide 'gtm-emacs-plugin)
+(provide 'git-time-metric)
 
-;;; gtm-emacs-plugin.el ends here
+;;; git-time-metric.el ends here
